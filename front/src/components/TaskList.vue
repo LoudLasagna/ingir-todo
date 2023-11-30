@@ -55,10 +55,10 @@
         return this.currentUser.length === 0 ? returnValue : filter((elem) => elem.userId === this.currentUser, returnValue)
       },
       incompletedTasks() {
-        return filter(elem => elem.completed === false, this.allTasks)
+        return filter(elem => elem.completed === 0, this.allTasks)
       },
       completedTasks() {
-        return filter(elem => elem.completed === true, this.allTasks)
+        return filter(elem => elem.completed === 1, this.allTasks)
       }
     },
     mounted() {

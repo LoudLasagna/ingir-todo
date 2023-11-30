@@ -1,37 +1,47 @@
 const express = require("express");
 const dotenv = require('dotenv');
+const mysql = require('mysql2')
+const bodyParser = require('body-parser')
 const cors = require("cors");
-const HttpException = require('./utils/HttpException.utils');
-const errorMiddleware = require('./middleware/error.middleware');
-const userRouter = require('./routes/user.route');
 
-// Init express
-const app = express();
-// Init environment
+const sqlConnection = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    password: '',
+    database: 'ingir-todo'
+})
+sqlConnection.connect()
+sqlConnection.query('INSERT INTO `tasks`(`name`, `text`, `completed`) VALUES (\'test\',\'test\',\'0\')', (err, rows, fields) => {
+    if (err) throw err
+
+    console.log('error')
+})
+
 dotenv.config();
-// parse requests of content-type: application/json
-// parses incoming requests with JSON payloads
-app.use(express.json());
-// enabling cors for all requests by using cors middleware
-app.use(cors());
-// Enable pre-flight
-app.options("*", cors());
 
-const port = Number(process.env.PORT || 3331);
+const app = express();
+const corsOptions = {
+    origin: false,
+};
+app.use(cors(corsOptions));
+// parse requests of content-type - application/json
+app.use(bodyParser.json());
+// parse requests of content-type - application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(`/api/v1/users`, userRouter);
-
-// 404 error
-app.all('*', (req, res, next) => {
-    const err = new HttpException(404, 'Endpoint Not Found');
-    next(err);
+app.get("/", (req, res) => {
+    res.json({ message: "Welcome to bezkoder application." });
 });
+app.get('/get-tasks', (req, res) => {
+    sqlConnection.query('SELECT * FROM `tasks`', (err, result, fields) => {
+        res.send(result)
+    })
+})
+app.post('/edit-task', (req, res) => {
+    res.json({ ...req.body})
+})
 
-// Error middleware
-app.use(errorMiddleware);
-
-// starting the server
-app.listen(port, () => console.log(`🚀 Server running on port ${port}!`));
-
-
-module.exports = app;
+const PORT = process.env.PORT || 8080;
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}.`);
+});

@@ -7,8 +7,7 @@ const useTaskStore = defineStore('tasks', {
     changingTask: null
   }),
   getters: {
-    getUsers: (state) => { return new Set(state.tasks.map((elem) => elem.userId)) },
-    getTasks: (state) => { return state.tasks.slice().reverse() }
+    getTasks: (state) => { return state.tasks }
   },
   actions: {
     taskAction(data, action) {

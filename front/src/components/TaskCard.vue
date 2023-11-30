@@ -4,9 +4,9 @@
       <div class="content">
         <span class="title">
           <span style="font-weight: bold">
-            {{ task.userId }} |
+            {{ task.id }} |
           </span>
-          {{ task.title }}
+          {{ task.text }}
         </span>
         <div class="controls">
           <el-tooltip :content="task.completed ? 'Начать заново' : 'Завершить задачу'" effect="light" placement="top">

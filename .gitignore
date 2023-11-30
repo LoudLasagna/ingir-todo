@@ -7,10 +7,9 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-back/node_modules
+node_modules
 front/node_modules
-back/dist
-front/dist
+back/node_modules
 dist
 dist-ssr
 *.local
@@ -25,3 +24,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+package-lock.json
+front/package-lock.json
+back/package-lock.json

@@ -28,6 +28,6 @@
 import TaskList from "../../components/TaskList.vue";
 export default {
   name: 'Main',
-  components: { TaskList }
+  components: { TaskList },
 }
 </script>
